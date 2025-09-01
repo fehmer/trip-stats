@@ -4,18 +4,24 @@ import { getFitFile } from "./global";
 import { formatDate, formatDuration } from "./utils/date-and-time";
 import type { Session } from "./utils/fit-parser";
 import * as DommUtils from "./utils/dom";
+import { render } from "./chart";
 
 export function update(): void {
-  updateSession();
+  const fitFile = getFitFile();
+  updateSession(fitFile?.sessions[0]);
+  render(fitFile?.records);
 }
 
-function updateSession(): void {
+function updateSession(session: Session | undefined): void {
   const sessionCard = document.getElementById("session") as HTMLElement;
+  if (session === undefined) {
+    sessionCard.classList.add("hidden");
+    return;
+  }
+
   const setText = (path: string, content: string) => {
     DommUtils.setText(sessionCard, path, content);
   };
-  const fitFile = getFitFile();
-  const session: Session = fitFile?.sessions[0] as Session;
 
   setText("h2", `Bike ride from A to B`);
   setText(

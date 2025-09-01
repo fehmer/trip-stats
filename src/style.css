@@ -6,8 +6,19 @@
   --text-color: #1f2937;
   --link-color: #3b82f6;
   --accent-color: #10b981;
+  --muted-color: #6b7280;
 }
 
+:root {
+  --background: #1e1f26;
+  --card-background: #2b2d3a;
+  --border: #3e4152;
+  --text-color: #e4e7ef;
+  --link-color: #4dabf7;
+  --accent-color: #20c997;
+  --muted-color: #6b7280;
+  --muted-color: #6b7280;
+}
 /* Reset and base styles */
 body {
   margin: 0;
@@ -111,7 +122,7 @@ main {
 }
 
 .hidden {
-  display: none !important;
+  visibility: hidden;
 }
 
 .session-card {
@@ -141,7 +152,7 @@ main {
 
 .timestamp {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--muted-color);
 }
 
 .session-meta,
@@ -157,7 +168,7 @@ main {
 }
 
 .muted {
-  color: #6b7280;
+  color: var(--muted-color);
   font-size: 0.9em;
   margin-left: 4px;
 }
@@ -173,15 +184,7 @@ main {
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
 }
 
-.graph-placeholder,
-.map-placeholder {
-  background-color: #f3f4f6;
-  border: 1px dashed #d1d5db;
-  border-radius: 6px;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
-  font-style: italic;
+#rideChart {
+  width: 100%;
+  aspect-ratio: 2;
 }
