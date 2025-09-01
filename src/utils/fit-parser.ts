@@ -1,3 +1,4 @@
+//@ts-expect-error missing types
 import FitParser from "fit-file-parser";
 
 export type FitFile = {

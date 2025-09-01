@@ -224,5 +224,5 @@ export async function updateChart(
 }
 
 document.getElementById("resetZoom")?.addEventListener("click", () => {
-  chart.resetZoom();
+  chart?.resetZoom();
 });
