@@ -30,7 +30,7 @@ Chart.register(
   zoomPlugin,
 );
 
-let chart;
+let chart: Chart | null;
 
 export function render(data: DataPoint[] | undefined) {
   const element = document.getElementById("chart") as HTMLElement;
@@ -48,6 +48,7 @@ export function render(data: DataPoint[] | undefined) {
   const axisColor = getCssVar("--text-color");
   const tickColor = getCssVar("--muted-color");
 
+  chart?.destroy();
   chart = new Chart(ctx, {
     type: "line",
     data: {
@@ -106,8 +107,7 @@ export function render(data: DataPoint[] | undefined) {
         tooltip: {
           callbacks: {
             title: (items) => {
-              const date = items[0].parsed.x;
-              return new Date(date).toLocaleString();
+              return "km " + items[0].parsed.x.toFixed(2);
             },
           },
         },
@@ -217,8 +217,6 @@ export function render(data: DataPoint[] | undefined) {
       },
     },
   });
-  const rendered = chart.data.datasets[0]._decimated?.length;
-  console.log("Visible points:", rendered);
 
   element.classList.remove("hidden");
 }

@@ -1,3 +1,14 @@
+:root {
+  --background: #1e1f26;
+  --card-background: #2b2d3a;
+  --border: #3e4152;
+  --text-color: #e4e7ef;
+  --link-color: #4dabf7;
+  --accent-color: #20c997;
+  --muted-color: #6b7280;
+  --muted-color: #6b7280;
+}
+
 /* Color variables for modern color scheme */
 :root {
   --background: #f9fafb;
@@ -9,24 +20,15 @@
   --muted-color: #6b7280;
 }
 
-:root {
-  --background: #1e1f26;
-  --card-background: #2b2d3a;
-  --border: #3e4152;
-  --text-color: #e4e7ef;
-  --link-color: #4dabf7;
-  --accent-color: #20c997;
-  --muted-color: #6b7280;
-  --muted-color: #6b7280;
-}
 /* Reset and base styles */
 body {
-  margin: 0;
   font-family: "Inter", sans-serif;
   background-color: var(--background);
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: clamp(320px, 90%, 1100px);
+  margin: 0 auto;
 }
 
 nav {
@@ -34,8 +36,12 @@ nav {
   justify-content: space-between;
   align-items: center;
   background-color: var(--card-background);
-  border-bottom: 1px solid var(--border);
+  border: 1px solid var(--border);
   padding: 10px 20px;
+
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
 
   .logo {
     display: flex;
@@ -117,15 +123,13 @@ nav {
 main {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 20px;
 }
 
 .hidden {
   visibility: hidden;
 }
 
-.session-card {
+.card {
   background-color: var(--card-background);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -135,15 +139,16 @@ main {
   flex-direction: column;
   gap: 12px;
   font-size: 0.95rem;
+  margin-top: 20px;
 }
 
-.session-header {
+.header {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.session-header h2 {
+.header h2 {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
@@ -171,17 +176,6 @@ main {
   color: var(--muted-color);
   font-size: 0.9em;
   margin-left: 4px;
-}
-
-/* Graph & Map Containers */
-.graph-container,
-.map-container {
-  background-color: var(--card-background);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
-  min-height: 200px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
 }
 
 #rideChart {

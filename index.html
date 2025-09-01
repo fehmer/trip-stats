@@ -33,8 +33,8 @@
 
   <main>
     <!-- Session Summary Card -->
-    <section id="session" class="session-card hidden">
-      <div class="session-header">
+    <section id="session" class="card hidden">
+      <div class="header">
         <h2>Bike ride from A to B</h2>
         <span class="timestamp">Start: 2025-09-01 08:45, Duration 1h 23m</span>
       </div>
@@ -53,15 +53,19 @@
     </section>
 
     <!-- Graph Container -->
-    <section id="chart" class="graph-container hidden">
-      <h3>Graphs</h3>
+    <section id="chart" class="card hidden">
+      <div class="header">
+        <h2>Graphs</h2>
+      </div>
       <canvas id="rideChart"></canvas>
       <button id="resetZoom">Reset Zoom</button>
     </section>
 
     <!-- Map Container -->
-    <section class="map-container hidden">
-      <h3>Map</h3>
+    <section class="card hidden">
+      <div class="header">
+        <h2>Map</h2>
+      </div>
       <div class="map-placeholder">[Map will be rendered here]</div>
     </section>
   </main>
