@@ -32,7 +32,9 @@ Chart.register(
 
 let chart: Chart | null;
 
-export function render(data: DataPoint[] | undefined) {
+export async function updateChart(
+  data: DataPoint[] | undefined,
+): Promise<void> {
   const element = document.getElementById("chart") as HTMLElement;
   if (data === undefined) {
     element.classList.add("hidden");

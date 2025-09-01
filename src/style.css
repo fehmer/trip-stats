@@ -6,18 +6,26 @@
   --link-color: #4dabf7;
   --accent-color: #20c997;
   --muted-color: #6b7280;
-  --muted-color: #6b7280;
+
+  --light-background: #f9fafb;
+  --light-card-background: #ffffff;
+  --light-border: #d1d5db;
+  --light-text-color: #1f2937;
+  --light-link-color: #3b82f6;
+  --light-accent-color: #10b981;
+  --light-muted-color: #6b7280;
 }
 
-/* Color variables for modern color scheme */
-:root {
-  --background: #f9fafb;
-  --card-background: #ffffff;
-  --border: #d1d5db;
-  --text-color: #1f2937;
-  --link-color: #3b82f6;
-  --accent-color: #10b981;
-  --muted-color: #6b7280;
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: var(--light-background);
+    --card-background: var(--light-card-background);
+    --border: var(--light-border);
+    --text-color: var(--light-text-color);
+    --link-color: var(--light-link-color);
+    --accent-color: var(--light-accent-color);
+    --muted-color: var(--light-muted-color);
+  }
 }
 
 /* Reset and base styles */
@@ -181,4 +189,9 @@ main {
 #rideChart {
   width: 100%;
   aspect-ratio: 2;
+}
+
+#leaflet {
+  width: 100%;
+  height: 600px;
 }

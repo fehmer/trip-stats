@@ -4,8 +4,9 @@ import { getFitFile } from "./global";
 import { formatDate, formatDuration } from "./utils/date-and-time";
 import type { DataPoint, Session } from "./utils/fit-parser";
 import * as DommUtils from "./utils/dom";
-import { render } from "./chart";
+import { updateChart } from "./chart";
 import { getTown } from "./utils/geo";
+import { updateMap } from "./map";
 
 export function update(): void {
   const fitFile = getFitFile();
@@ -13,7 +14,8 @@ export function update(): void {
   const start = fitFile?.records.at(0);
   const end = fitFile?.records.at(fitFile.records.length - 1);
   void updateSession(fitFile?.sessions[0], start, end);
-  render(fitFile?.records);
+  void updateChart(fitFile?.records);
+  void updateMap(fitFile?.records);
 }
 
 async function updateSession(
