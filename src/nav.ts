@@ -1,4 +1,6 @@
-import { setFitFile } from "./global";
+import { getFitFile, setFitFile } from "./global";
+import { toCsv } from "./utils/csv";
+import { formatDate } from "./utils/date-and-time";
 import { parse } from "./utils/fit-parser";
 
 const importFile = document.getElementById("importFile");
@@ -35,3 +37,41 @@ importFile?.addEventListener("click", (event) => {
   // Clean up
   input.remove();
 });
+
+document.getElementById("export-json")?.addEventListener("click", () => {
+  const fitFile = getFitFile();
+  if (!fitFile) return;
+  const content = JSON.stringify(getFitFile(), null, 2);
+  downloadFile(
+    content,
+    fitFile.sessions[0].sport +
+      " " +
+      formatDate(fitFile.sessions[0].timestamp) +
+      ".json",
+    "application/json",
+  );
+});
+
+document.getElementById("export-csv")?.addEventListener("click", async () => {
+  const fitFile = getFitFile();
+  if (!fitFile) return;
+  const content = await toCsv(fitFile.records);
+  downloadFile(
+    content,
+    fitFile.sessions[0].sport +
+      " " +
+      formatDate(fitFile.sessions[0].timestamp) +
+      ".csv",
+    "text/csv",
+  );
+});
+function downloadFile(data: string, filename: string, type: string): void {
+  const blob = new Blob([data], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
