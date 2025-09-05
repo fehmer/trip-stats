@@ -51,6 +51,7 @@ export type DataPoint = {
   power: number;
   position_lat: number;
   position_long: number;
+  altitude: number;
 };
 
 export async function parse(content: ArrayBuffer): Promise<FitFile> {

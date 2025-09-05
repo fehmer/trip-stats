@@ -43,9 +43,16 @@ export async function updateChart(
   const ctx = document.getElementById("rideChart") as HTMLCanvasElement;
 
   const labels = data.map((d) => d.distance);
-  const speedData = data.map((d) => ({ x: d.distance, y: d.speed }));
-  const powerData = data.map((d) => ({ x: d.distance, y: d.power }));
-  const cadenceData = data.map((d) => ({ x: d.distance, y: d.cadence }));
+
+  const pickData = (
+    key: Exclude<keyof DataPoint, "timestamp">,
+    convert?: (value: number) => number,
+  ) => data.map((d) => ({ x: d.distance, y: convert?.(d[key]) ?? d[key] }));
+
+  const speedData = pickData("speed");
+  const powerData = pickData("power");
+  const cadenceData = pickData("cadence");
+  const altitudeData = pickData("altitude", (it) => it * 1000);
 
   const axisColor = getCssVar("--text-color");
   const tickColor = getCssVar("--muted-color");
@@ -76,7 +83,7 @@ export async function updateChart(
           yAxisID: "y1",
           parsing: false,
           pointRadius: 0,
-          fill: true,
+          fill: false,
         },
         {
           label: "Cadence (rpm)",
@@ -88,6 +95,19 @@ export async function updateChart(
           yAxisID: "y2",
           parsing: false,
           pointRadius: 0,
+        },
+        {
+          label: "Altitude (m)",
+          data: altitudeData,
+          borderColor: "#8b5cf6",
+          backgroundColor: "rgba(139, 92, 246, 0.2)",
+          borderWidth: 1.5,
+          tension: 0.3,
+          yAxisID: "y3",
+          parsing: false,
+          pointRadius: 0,
+          fill: true,
+          spanGaps: true,
         },
       ],
     },
@@ -117,7 +137,7 @@ export async function updateChart(
           position: "top",
         },
         decimation: {
-          enabled: true,
+          enabled: false,
           algorithm: "lttb", // or 'min-max'
           samples: 250,
           threshold: 1000,
@@ -207,6 +227,23 @@ export async function updateChart(
           title: {
             display: true,
             text: "Cadence (rpm)",
+            color: axisColor,
+          },
+          grid: {
+            drawOnChartArea: false,
+          },
+          ticks: {
+            color: tickColor,
+          },
+        },
+        y3: {
+          type: "linear",
+          display: true,
+          position: "left",
+          offset: true,
+          title: {
+            display: true,
+            text: "Altitude (m)",
             color: axisColor,
           },
           grid: {
