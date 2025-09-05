@@ -1,41 +1,65 @@
 import { getFitFile, setFitFile } from "./global";
 import { toCsv } from "./utils/csv";
 import { formatDate } from "./utils/date-and-time";
-import { parse } from "./utils/fit-parser";
+import { parse as parseFit } from "./utils/fit-parser";
+import { merge, parseGpx } from "./utils/gpx-parser";
 
-const importFile = document.getElementById("importFile");
-importFile?.addEventListener("click", (event) => {
-  event.preventDefault();
+async function importFile(accept: string): Promise<ArrayBuffer> {
+  return new Promise((resolve, reject) => {
+    // Create a hidden file input
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = accept;
+    input.style.display = "none";
 
-  // Create a hidden file input
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".fit"; // Only allow .fit files
-  input.style.display = "none";
+    // Listen for file selection
+    input.addEventListener("change", async () => {
+      const file = input.files?.[0];
+      if (!file) {
+        reject("no file");
+        return;
+      }
 
-  // Listen for file selection
-  input.addEventListener("change", async () => {
-    const file = input.files?.[0];
-    if (!file) {
-      return;
-    }
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file);
 
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
+      reader.onload = async () => {
+        const content = reader.result as ArrayBuffer;
+        resolve(content);
+      };
+    });
 
-    reader.onload = async () => {
-      const content = reader.result as ArrayBuffer;
-      const fitFile = await parse(content);
-      setFitFile(fitFile);
-    };
+    // Trigger the file dialog
+    document.body.appendChild(input); // Required for Firefox
+    input.click();
+
+    // Clean up
+    input.remove();
   });
+}
 
-  // Trigger the file dialog
-  document.body.appendChild(input); // Required for Firefox
-  input.click();
+const importFit = document.getElementById("import-fit");
+importFit?.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const content = await importFile(".fit");
+  const fitFile = await parseFit(content);
+  setFitFile(fitFile);
+});
 
-  // Clean up
-  input.remove();
+const importGpx = document.getElementById("import-gpx");
+importGpx?.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const fitFile = getFitFile();
+  if (fitFile === undefined) {
+    throw new Error("import fit-file first");
+  }
+
+  const content = await importFile(".gpx");
+  const gpxFile = parseGpx(content);
+
+  fitFile.records = merge(fitFile.records, gpxFile);
+  setFitFile(fitFile);
+  console.log(gpxFile);
 });
 
 document.getElementById("export-json")?.addEventListener("click", () => {

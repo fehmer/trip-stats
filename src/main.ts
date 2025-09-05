@@ -3,7 +3,7 @@ import "./nav";
 import { getFitFile } from "./global";
 import { formatDate, formatDuration } from "./utils/date-and-time";
 import type { DataPoint, Session } from "./utils/fit-parser";
-import * as DommUtils from "./utils/dom";
+import * as DomUtils from "./utils/dom";
 import { updateChart } from "./chart";
 import { getTown } from "./utils/geo";
 import { updateMap } from "./map";
@@ -32,7 +32,7 @@ async function updateSession(
   const startTown = await getTown(start);
   const endTown = await getTown(end);
   const setText = (path: string, content: string) => {
-    DommUtils.setText(sessionCard, path, content);
+    DomUtils.setText(sessionCard, path, content);
   };
 
   setText("h2", `Bike ride from ${startTown} to ${endTown}`);
@@ -56,3 +56,11 @@ async function updateSession(
 
   sessionCard.classList.remove("hidden");
 }
+
+window.onerror = (message) => {
+  DomUtils.showToast("Error:" + message);
+};
+
+window.addEventListener("unhandledrejection", (event) => {
+  DomUtils.showToast(event.reason);
+});

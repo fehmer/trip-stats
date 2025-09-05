@@ -1,10 +1,13 @@
 const cache = new Map<string, string>();
 
 export async function getTown(params?: {
-  position_lat: number;
-  position_long: number;
+  position_lat?: number;
+  position_long?: number;
 }): Promise<string> {
   if (params === undefined) return "unknown";
+  if (params.position_lat === undefined || params.position_long === undefined)
+    return "unknown";
+
   const lat = params.position_lat.toFixed(4);
   const long = params.position_long.toFixed(4);
   const key = lat + "|" + long;

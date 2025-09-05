@@ -17,13 +17,17 @@ export async function updateMap(data: DataPoint[] | undefined): Promise<void> {
   }
   // Convert to LatLngs
   const latlngs: L.LatLngExpression[] = data
-    .filter((p) => p.position_lat && p.position_long)
-    .map((p) => [p.position_lat, p.position_long]);
+    .filter(
+      (p) => p.position_lat !== undefined && p.position_long !== undefined,
+    )
+    .map((p) => [p.position_lat as number, p.position_long as number]);
 
-  // Initialize or reset map
-  if (map) {
-    map.remove(); // remove existing map instance
+  if (latlngs.length === 0) {
+    map?.remove();
+    return;
   }
+
+  map?.remove(); // remove existing map instance
 
   map = L.map("leaflet", {
     zoomControl: true,
