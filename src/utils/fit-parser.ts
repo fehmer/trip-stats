@@ -81,7 +81,7 @@ function groupRecords(records: DataPoint[]): DataPoint[] {
   const grouped = Object.values(
     records.reduce<Record<number, DataPoint>>((acc, it) => {
       const ts = it.timestamp.getTime();
-      acc[ts] = { ...(acc[ts] ?? {}), ...it };
+      acc[ts] = { ...acc[ts], ...it };
       return acc;
     }, {}),
   );

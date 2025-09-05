@@ -59,7 +59,6 @@ importGpx?.addEventListener("click", async (event) => {
 
   fitFile.records = merge(fitFile.records, gpxFile);
   setFitFile(fitFile);
-  console.log(gpxFile);
 });
 
 document.getElementById("export-json")?.addEventListener("click", () => {
