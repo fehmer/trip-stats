@@ -49,9 +49,9 @@ export type DataPoint = {
   distance: number;
   speed: number;
   power: number;
-  position_lat: number;
-  position_long: number;
-  altitude: number;
+  position_lat?: number;
+  position_long?: number;
+  altitude?: number;
 };
 
 export async function parse(content: ArrayBuffer): Promise<FitFile> {
@@ -103,6 +103,15 @@ function groupRecords(records: DataPoint[]): DataPoint[] {
       position_long: nearest.position_long,
     };
   }
+
+  //TODO for testing
+  /*return grouped.map((it) => ({
+    ...it,
+    position_lat: undefined,
+    position_long: undefined,
+    altitude: undefined,
+  }));
+  */
   return grouped;
 }
 

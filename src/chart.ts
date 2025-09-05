@@ -46,13 +46,21 @@ export async function updateChart(
 
   const pickData = (
     key: Exclude<keyof DataPoint, "timestamp">,
-    convert?: (value: number) => number,
-  ) => data.map((d) => ({ x: d.distance, y: convert?.(d[key]) ?? d[key] }));
+    convert?: (value: number | undefined) => number | undefined,
+  ): { x: number; y: number }[] =>
+    data
+      .map((d) => ({
+        x: d.distance,
+        y: (convert?.(d[key]) ?? d[key]) as number,
+      }))
+      .filter((it) => it.y !== undefined);
 
   const speedData = pickData("speed");
   const powerData = pickData("power");
   const cadenceData = pickData("cadence");
-  const altitudeData = pickData("altitude", (it) => it * 1000);
+  const altitudeData = pickData("altitude", (it) =>
+    it === undefined ? undefined : it * 1000,
+  );
 
   const axisColor = getCssVar("--text-color");
   const tickColor = getCssVar("--muted-color");
