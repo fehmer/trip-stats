@@ -55,13 +55,6 @@ export async function updateChart(
       }))
       .filter((it) => it.y !== undefined);
 
-  const speedData = pickData("speed");
-  const powerData = pickData("power");
-  const cadenceData = pickData("cadence");
-  const altitudeData = pickData("altitude", (it) =>
-    it === undefined ? undefined : it * 1000,
-  );
-
   const axisColor = getCssVar("--text-color");
   const tickColor = getCssVar("--muted-color");
 
@@ -72,7 +65,7 @@ export async function updateChart(
       datasets: [
         {
           label: "Speed (km/h)",
-          data: speedData,
+          data: pickData("speed"),
           borderColor: "#3b82f6",
           backgroundColor: "rgba(59, 130, 246, 0.2)",
           borderWidth: 1.5,
@@ -80,10 +73,11 @@ export async function updateChart(
           yAxisID: "y",
           parsing: false,
           pointRadius: 0,
+          spanGaps: true,
         },
         {
           label: "Power (W)",
-          data: powerData,
+          data: pickData("power"),
           borderColor: "#f97316",
           backgroundColor: "rgba(249, 115, 22, 0.2)",
           borderWidth: 1.5,
@@ -91,11 +85,11 @@ export async function updateChart(
           yAxisID: "y1",
           parsing: false,
           pointRadius: 0,
-          fill: false,
+          spanGaps: true,
         },
         {
           label: "Cadence (rpm)",
-          data: cadenceData,
+          data: pickData("cadence"),
           borderColor: "#10b981",
           backgroundColor: "rgba(16, 185, 129, 0.2)",
           borderWidth: 1.5,
@@ -103,10 +97,13 @@ export async function updateChart(
           yAxisID: "y2",
           parsing: false,
           pointRadius: 0,
+          spanGaps: true,
         },
         {
           label: "Altitude (m)",
-          data: altitudeData,
+          data: pickData("altitude", (it) =>
+            it === undefined ? undefined : it * 1000,
+          ),
           borderColor: "#8b5cf6",
           backgroundColor: "rgba(139, 92, 246, 0.2)",
           borderWidth: 1.5,
