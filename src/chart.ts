@@ -15,6 +15,7 @@ import "chartjs-adapter-date-fns";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { getCssVar } from "./utils/dom";
 import type { DataPoint } from "./utils/data-point";
+import { highlightByDistance } from "./map";
 
 Chart.register(
   LineController,
@@ -54,6 +55,9 @@ export async function updateChart(
         y: (convert?.(d[key]) ?? d[key]) as number,
       }))
       .filter((it) => it.y !== undefined);
+
+  const maxValue = (key: Exclude<keyof DataPoint, "timestamp">) =>
+    Math.max(...data.map((it) => it[key] as number));
 
   const axisColor = getCssVar("--text-color");
   const tickColor = getCssVar("--muted-color");
@@ -152,6 +156,10 @@ export async function updateChart(
             enabled: true,
             mode: "x",
             //modifierKey: "ctrl",
+            onPanComplete: ({ chart }) => {
+              const { min, max } = chart.scales["x"];
+              highlightByDistance(min, max);
+            },
           },
           zoom: {
             wheel: {
@@ -162,10 +170,17 @@ export async function updateChart(
               enabled: true,
             },
             mode: "x",
+            onZoomComplete: ({ chart }) => {
+              const { min, max } = chart.scales["x"];
+              highlightByDistance(min, max);
+            },
           },
           limits: {
             x: { min: "original", max: "original" },
-            y: { min: "original", max: "original" },
+            y: { min: 0, max: maxValue("speed") },
+            y1: { min: 0, max: maxValue("power") },
+            y2: { min: 0, max: maxValue("cadence") },
+            y3: { min: 0, max: maxValue("altitude") },
           },
         },
       },
@@ -207,6 +222,8 @@ export async function updateChart(
           ticks: {
             color: tickColor,
           },
+          min: 0,
+          max: maxValue("speed") ?? 0,
         },
         y1: {
           type: "linear",
@@ -223,6 +240,8 @@ export async function updateChart(
           ticks: {
             color: tickColor,
           },
+          min: 0,
+          max: maxValue("power") ?? 0,
         },
         y2: {
           type: "linear",
@@ -240,6 +259,8 @@ export async function updateChart(
           ticks: {
             color: tickColor,
           },
+          min: 0,
+          max: maxValue("cadence") ?? 0,
         },
         y3: {
           type: "linear",
@@ -257,6 +278,8 @@ export async function updateChart(
           ticks: {
             color: tickColor,
           },
+          min: 0,
+          max: maxValue("altitude") ?? 0,
         },
       },
     },
@@ -268,3 +291,8 @@ export async function updateChart(
 document.getElementById("resetZoom")?.addEventListener("click", () => {
   chart?.resetZoom();
 });
+
+export function zoomToDistance(min: number, max: number): void {
+  if (!chart) return;
+  chart.zoomScale("x", { min, max });
+}
