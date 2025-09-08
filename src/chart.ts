@@ -13,8 +13,8 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import zoomPlugin from "chartjs-plugin-zoom";
-import type { DataPoint } from "./utils/fit-parser";
 import { getCssVar } from "./utils/dom";
+import type { DataPoint } from "./utils/data-point";
 
 Chart.register(
   LineController,
@@ -72,7 +72,7 @@ export async function updateChart(
           tension: 0.3,
           yAxisID: "y",
           parsing: false,
-          pointRadius: 0,
+          pointRadius: 1,
           spanGaps: true,
         },
         {
@@ -84,7 +84,7 @@ export async function updateChart(
           tension: 0.3,
           yAxisID: "y1",
           parsing: false,
-          pointRadius: 0,
+          pointRadius: 1,
           spanGaps: true,
         },
         {
@@ -96,13 +96,13 @@ export async function updateChart(
           tension: 0.3,
           yAxisID: "y2",
           parsing: false,
-          pointRadius: 0,
+          pointRadius: 1,
           spanGaps: true,
         },
         {
           label: "Altitude (m)",
           data: pickData("altitude", (it) =>
-            it === undefined ? undefined : it * 1000,
+            it === undefined ? undefined : Math.round(it * 1000),
           ),
           borderColor: "#8b5cf6",
           backgroundColor: "rgba(139, 92, 246, 0.2)",
@@ -110,7 +110,7 @@ export async function updateChart(
           tension: 0.3,
           yAxisID: "y3",
           parsing: false,
-          pointRadius: 0,
+          pointRadius: 1,
           fill: true,
           spanGaps: true,
         },
@@ -134,7 +134,7 @@ export async function updateChart(
         tooltip: {
           callbacks: {
             title: (items) => {
-              return "km " + items[0].parsed.x.toFixed(2);
+              return "km " + items[0].parsed.x.toFixed(3);
             },
           },
         },

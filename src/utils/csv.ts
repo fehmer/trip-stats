@@ -1,5 +1,5 @@
 import { stringify } from "csv-stringify/browser/esm/sync";
-import type { DataPoint } from "./fit-parser";
+import type { DataPoint } from "./data-point";
 
 export function toCsv(data: DataPoint[]): string {
   return stringify(data, {
@@ -11,6 +11,7 @@ export function toCsv(data: DataPoint[]): string {
       { key: "speed" },
       { key: "power" },
       { key: "cadence" },
+      { key: "altitude" },
     ],
     header: true,
   });

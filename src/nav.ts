@@ -1,8 +1,9 @@
 import { getFitFile, setFitFile } from "./global";
 import { toCsv } from "./utils/csv";
+import { mergeByTime } from "./utils/data-point";
 import { formatDate } from "./utils/date-and-time";
-import { parse as parseFit } from "./utils/fit-parser";
-import { merge, parseGpx } from "./utils/gpx-parser";
+import { parseFit } from "./utils/fit-parser";
+import { parseGpx } from "./utils/gpx-parser";
 
 async function importFile(accept: string): Promise<ArrayBuffer> {
   return new Promise((resolve, reject) => {
@@ -55,9 +56,14 @@ importGpx?.addEventListener("click", async (event) => {
   }
 
   const content = await importFile(".gpx");
-  const gpxFile = parseGpx(content);
+  const waypoints = parseGpx(content);
 
-  fitFile.records = merge(fitFile.records, gpxFile);
+  mergeByTime(fitFile.records, waypoints, (point, waypoint) => {
+    point.altitude = waypoint.altitude;
+    point.position_lat = waypoint.position_lat;
+    point.position_long = waypoint.position_long;
+  });
+
   setFitFile(fitFile);
 });
 

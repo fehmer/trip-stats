@@ -2,11 +2,12 @@ import "./style.css";
 import "./nav";
 import { getFitFile } from "./global";
 import { formatDate, formatDuration } from "./utils/date-and-time";
-import type { DataPoint, Session } from "./utils/fit-parser";
+import type { Session } from "./utils/fit-parser";
 import * as DomUtils from "./utils/dom";
 import { updateChart } from "./chart";
 import { getTown } from "./utils/geo";
 import { updateMap } from "./map";
+import type { DataPoint } from "./utils/data-point";
 
 export function update(): void {
   const fitFile = getFitFile();
