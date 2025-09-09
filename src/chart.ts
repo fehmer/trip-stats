@@ -54,7 +54,13 @@ export async function updateChart(
         x: d.distance,
         y: (convert?.(d[key]) ?? d[key]) as number,
       }))
-      .filter((it) => it.y !== undefined);
+      .filter(
+        (it) =>
+          it.x !== undefined &&
+          it.y !== undefined &&
+          !isNaN(it.x) &&
+          !isNaN(it.y),
+      );
 
   const maxValue = (key: Exclude<keyof DataPoint, "timestamp">) =>
     Math.max(...data.map((it) => it[key] as number));
@@ -177,10 +183,10 @@ export async function updateChart(
           },
           limits: {
             x: { min: "original", max: "original" },
-            y: { min: 0, max: maxValue("speed") },
-            y1: { min: 0, max: maxValue("power") },
-            y2: { min: 0, max: maxValue("cadence") },
-            y3: { min: 0, max: maxValue("altitude") },
+            y: { min: "original", max: "original" },
+            y1: { min: "original", max: "original" },
+            y2: { min: "original", max: "original" },
+            y3: { min: "original", max: "original" },
           },
         },
       },
@@ -199,7 +205,6 @@ export async function updateChart(
         */
         x: {
           type: "linear",
-
           title: {
             display: true,
             text: "Distance",
@@ -247,7 +252,7 @@ export async function updateChart(
           type: "linear",
           display: true,
           position: "right",
-          offset: true,
+          offset: false,
           title: {
             display: true,
             text: "Cadence (rpm)",
@@ -266,7 +271,7 @@ export async function updateChart(
           type: "linear",
           display: true,
           position: "left",
-          offset: true,
+          offset: false,
           title: {
             display: true,
             text: "Altitude (m)",

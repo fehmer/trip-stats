@@ -82,6 +82,7 @@ function groupRecords(records: DataPoint[]): DataPoint[] {
   mergeByTime(grouped, pointsWIthPosition, (src, data) => {
     src.position_lat = src.position_lat ?? data.position_lat;
     src.position_long = src.position_long ?? data.position_long;
+    src.distance = src.distance ?? data.distance;
   });
 
   return grouped;
