@@ -134,7 +134,7 @@ export async function updateChart(
       responsive: true,
       maintainAspectRatio: true,
       animation: false,
-      aspectRatio: 2,
+
       parsing: false,
       interaction: {
         mode: "nearest",
