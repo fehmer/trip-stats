@@ -2,7 +2,7 @@ import { getFitFile, setFitFile } from "./global";
 import { toCsv } from "./utils/csv";
 import { mergeByTime } from "./utils/data-point";
 import { formatDate } from "./utils/date-and-time";
-import { parseFit } from "./utils/fit-parser";
+import { parseFit, type FitFile } from "./utils/fit-parser";
 import { parseGpx } from "./utils/gpx-parser";
 
 async function importFile(accept: string): Promise<ArrayBuffer> {
@@ -72,30 +72,21 @@ document.getElementById("export-json")?.addEventListener("click", () => {
   if (!fitFile) return;
   const content = JSON.stringify(getFitFile(), null, 2);
   downloadFile(
-    content,
-    fitFile.sessions[0].sport +
-      " " +
-      formatDate(fitFile.sessions[0].timestamp) +
-      ".json",
-    "application/json",
+    new Blob([content], { type: "application/json" }),
+    getFileName(fitFile, "json"),
   );
 });
 
 document.getElementById("export-csv")?.addEventListener("click", async () => {
   const fitFile = getFitFile();
   if (!fitFile) return;
-  const content = await toCsv(fitFile.records);
+  const content = toCsv(fitFile.records);
   downloadFile(
-    content,
-    fitFile.sessions[0].sport +
-      " " +
-      formatDate(fitFile.sessions[0].timestamp) +
-      ".csv",
-    "text/csv",
+    new Blob([content], { type: "text/csv" }),
+    getFileName(fitFile, "csv "),
   );
 });
-function downloadFile(data: string, filename: string, type: string): void {
-  const blob = new Blob([data], { type });
+function downloadFile(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -103,4 +94,14 @@ function downloadFile(data: string, filename: string, type: string): void {
   a.click();
 
   URL.revokeObjectURL(url);
+}
+
+function getFileName(fitFile: FitFile, extension: string) {
+  return (
+    fitFile.sessions[0].sport +
+    " " +
+    formatDate(fitFile.sessions[0].timestamp) +
+    "." +
+    extension
+  );
 }

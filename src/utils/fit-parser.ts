@@ -12,7 +12,7 @@ export type FitFile = {
 };
 
 type Activity = {
-  timetamp: Date;
+  timestamp: Date;
   total_timer_time: number;
   num_sessions: number;
   local_timestamp: Date;
