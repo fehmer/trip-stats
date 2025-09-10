@@ -63,7 +63,11 @@ export async function updateChart(
       );
 
   const maxValue = (key: Exclude<keyof DataPoint, "timestamp">) =>
-    Math.max(...data.map((it) => it[key] as number));
+    Math.max(
+      ...data
+        .map((it) => it[key] as number)
+        .filter((it) => it !== undefined && !isNaN(it)),
+    );
 
   const axisColor = getCssVar("--text-color");
   const tickColor = getCssVar("--muted-color");
@@ -284,7 +288,7 @@ export async function updateChart(
             color: tickColor,
           },
           min: 0,
-          max: maxValue("altitude") ?? 0,
+          max: (maxValue("altitude") ?? 0) * 1000,
         },
       },
     },

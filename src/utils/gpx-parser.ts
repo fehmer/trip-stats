@@ -18,7 +18,7 @@ export function parseGpx(content: ArrayBuffer): GpxWaypoint[] {
   return gpx.tracks[0].points.map((it) => ({
     position_lat: it.latitude,
     position_long: it.longitude,
-    altitude: (it.elevation ?? 0) / 1000,
+    altitude: it.elevation !== null ? it.elevation / 1000 : undefined,
     timestamp: it.time as Date,
   }));
 }
