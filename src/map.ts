@@ -190,7 +190,7 @@ function formatPopupTable(data: DataPoint): string {
 export function highlightByDistance(min: number, max: number): void {
   if (!map || !data) return;
 
-  const highlightColor = "#f97316";
+  const highlightColor = getCssVar("--chart-power");
   if (highlightLine !== null) {
     map.removeLayer(highlightLine);
   }

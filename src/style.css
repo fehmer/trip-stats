@@ -1,26 +1,32 @@
 /* Centralized color and shadow variables */
 :root {
-  --background: #1e1f26;
-  --card-background: #2b2d3a;
-  --border: #3e4152;
-  --text-color: #e4e7ef;
-  --link-color: #4dabf7;
+  --background: #181a20;
+  --card-background: #23272f;
+  --border: #2d3340;
+  --text-color: #f5f6fa;
+  --link-color: #2563eb;
   --accent-color: #20c997;
-  --muted-color: #6b7280;
-
-  --light-background: #f9fafb;
-  --light-card-background: #ffffff;
-  --light-border: #d1d5db;
-  --light-text-color: #1f2937;
-  --light-link-color: #3b82f6;
-  --light-accent-color: #10b981;
-  --light-muted-color: #6b7280;
+  --muted-color: #7c8493;
 
   --toast-bg: #f87171;
   --toast-text: #ffffff;
-  --shadow: 0 2px 6px rgb(0 0 0 / 0.05);
-  --dropdown-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  --toast-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --shadow: 0 1px 8px rgb(0 0 0 / 0.04);
+  --dropdown-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+  --roundness: 8px;
+
+  --chart-speed: var(--link-color);
+  --chart-power: #f97316;
+  --chart-cadence: var(--accent-color);
+  --chart-altitude: #8b5cf6;
+
+  --chart-speed-bg: color-mix(in srgb, var(--chart-speed) 20%, transparent);
+  --chart-power-bg: color-mix(in srgb, var(--chart-power) 20%, transparent);
+  --chart-cadence-bg: color-mix(in srgb, var(--accent-color) 20%, transparent);
+  --chart-altitude-bg: color-mix(
+    in srgb,
+    var(--chart-altitude) 20%,
+    transparent
+  );
 }
 *,
 *::before,
@@ -30,13 +36,16 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --background: var(--light-background);
-    --card-background: var(--light-card-background);
-    --border: var(--light-border);
-    --text-color: var(--light-text-color);
-    --link-color: var(--light-link-color);
-    --accent-color: var(--light-accent-color);
-    --muted-color: var(--light-muted-color);
+    --background: #f8fafc;
+    --card-background: #ffffff;
+    --border: #e2e8f0;
+    --text-color: #181a20;
+    --link-color: #2563eb;
+    --accent-color: #10b981;
+    --muted-color: #94a3b8;
+
+    --chart-power: #ea580c;
+    --chart-altitude: #7c3aed;
   }
 }
 
@@ -64,8 +73,8 @@ nav {
   background: var(--card-background);
   border: 1px solid var(--border);
   padding: 10px 20px;
-  border-end-end-radius: 10px;
-  border-end-start-radius: 10px;
+  border-end-end-radius: var(--roundness);
+  border-end-start-radius: var(--roundness);
   box-shadow: var(--shadow);
 }
 .logo {
@@ -98,7 +107,7 @@ nav {
   padding: 8px 12px;
   display: block;
   font-weight: 500;
-  border-radius: 6px;
+  border-radius: calc(var(--roundness) * 0.8);
   transition: background-color 0.2s;
   cursor: pointer;
 }
@@ -117,7 +126,7 @@ nav {
   list-style: none;
   padding: 0;
   margin: 0;
-  border-radius: 6px;
+  border-radius: calc(var(--roundness) * 0.8);
   min-width: 120px;
   border: 1px solid var(--border);
   box-shadow: var(--dropdown-shadow);
@@ -149,7 +158,7 @@ main {
 .card {
   background: var(--card-background);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--roundness);
   padding: 20px;
   box-shadow: var(--shadow);
   display: flex;
@@ -215,9 +224,8 @@ main {
   background: var(--toast-bg);
   color: var(--toast-text);
   padding: 0.75rem 1rem;
-  border-radius: 4px;
-  box-shadow: var(--toast-shadow);
-  font-family: sans-serif;
+  border-radius: calc(var(--roundness) * 0.8);
+  box-shadow: var(--dropdown-shadow);
   animation:
     fadein 0.3s,
     fadeout 0.3s 4.5s;

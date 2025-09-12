@@ -74,8 +74,6 @@ export async function updateChart(
   const axisColor = getCssVar("--text-color");
   const tickColor = getCssVar("--muted-color");
 
-  console.log({ min: Math.min(...labels), max: Math.max(...labels) });
-
   chart?.destroy();
   chart = new Chart(ctx, {
     type: "line",
@@ -84,8 +82,8 @@ export async function updateChart(
         {
           label: "Speed (km/h)",
           data: pickData("speed"),
-          borderColor: "#3b82f6",
-          backgroundColor: "rgba(59, 130, 246, 0.2)",
+          borderColor: getCssVar("--chart-speed"),
+          backgroundColor: getCssVar("--chart-speed-bg"),
           borderWidth: 1.5,
           tension: 0.3,
           yAxisID: "y",
@@ -96,8 +94,8 @@ export async function updateChart(
         {
           label: "Power (W)",
           data: pickData("power"),
-          borderColor: "#f97316",
-          backgroundColor: "rgba(249, 115, 22, 0.2)",
+          borderColor: getCssVar("--chart-power"),
+          backgroundColor: getCssVar("--chart-power-bg"),
           borderWidth: 1.5,
           tension: 0.3,
           yAxisID: "y1",
@@ -108,8 +106,8 @@ export async function updateChart(
         {
           label: "Cadence (rpm)",
           data: pickData("cadence"),
-          borderColor: "#10b981",
-          backgroundColor: "rgba(16, 185, 129, 0.2)",
+          borderColor: getCssVar("--chart-cadence"),
+          backgroundColor: getCssVar("--chart-cadence-bg"),
           borderWidth: 1.5,
           tension: 0.3,
           yAxisID: "y2",
@@ -122,8 +120,8 @@ export async function updateChart(
           data: pickData("altitude", (it) =>
             it === undefined ? undefined : Math.round(it * 1000),
           ),
-          borderColor: "#8b5cf6",
-          backgroundColor: "rgba(139, 92, 246, 0.2)",
+          borderColor: getCssVar("--chart-altitude"),
+          backgroundColor: getCssVar("--chart-altitude-bg"),
           borderWidth: 1.5,
           tension: 0.3,
           yAxisID: "y3",
