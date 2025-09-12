@@ -43,7 +43,9 @@ export async function updateChart(
   }
   const ctx = document.getElementById("rideChart") as HTMLCanvasElement;
 
-  const labels = data.map((d) => d.distance);
+  const labels = data
+    .map((d) => d.distance)
+    .filter((it) => it !== undefined && !isNaN(it));
 
   const pickData = (
     key: Exclude<keyof DataPoint, "timestamp">,
@@ -71,6 +73,8 @@ export async function updateChart(
 
   const axisColor = getCssVar("--text-color");
   const tickColor = getCssVar("--muted-color");
+
+  console.log({ min: Math.min(...labels), max: Math.max(...labels) });
 
   chart?.destroy();
   chart = new Chart(ctx, {
@@ -186,7 +190,7 @@ export async function updateChart(
             },
           },
           limits: {
-            x: { min: "original", max: "original" },
+            x: { min: 0, max: maxValue("distance") },
             y: { min: "original", max: "original" },
             y1: { min: "original", max: "original" },
             y2: { min: "original", max: "original" },
