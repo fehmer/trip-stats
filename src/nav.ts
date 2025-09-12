@@ -1,4 +1,4 @@
-import { getFitFile, setFitFile } from "./global";
+import { FitFileStore } from "./fit-file-store";
 import { toCsv } from "./utils/csv";
 import { mergeByTime } from "./utils/data-point";
 import { formatDate } from "./utils/date-and-time";
@@ -44,13 +44,13 @@ importFit?.addEventListener("click", async (event) => {
   event.preventDefault();
   const content = await importFile(".fit");
   const fitFile = await parseFit(content);
-  setFitFile(fitFile);
+  FitFileStore.set(fitFile);
 });
 
 const importGpx = document.getElementById("import-gpx");
 importGpx?.addEventListener("click", async (event) => {
   event.preventDefault();
-  const fitFile = getFitFile();
+  const fitFile = FitFileStore.get();
   if (fitFile === undefined) {
     throw new Error("import fit-file first");
   }
@@ -64,13 +64,13 @@ importGpx?.addEventListener("click", async (event) => {
     point.position_long = waypoint.position_long;
   });
 
-  setFitFile(fitFile);
+  FitFileStore.set(fitFile);
 });
 
 document.getElementById("export-json")?.addEventListener("click", () => {
-  const fitFile = getFitFile();
+  const fitFile = FitFileStore.get();
   if (!fitFile) return;
-  const content = JSON.stringify(getFitFile(), null, 2);
+  const content = JSON.stringify(FitFileStore.get(), null, 2);
   downloadFile(
     new Blob([content], { type: "application/json" }),
     getFileName(fitFile, "json"),
@@ -78,7 +78,7 @@ document.getElementById("export-json")?.addEventListener("click", () => {
 });
 
 document.getElementById("export-csv")?.addEventListener("click", async () => {
-  const fitFile = getFitFile();
+  const fitFile = FitFileStore.get();
   if (!fitFile) return;
   const content = toCsv(fitFile.records);
   downloadFile(

@@ -1,6 +1,6 @@
 import "./style.css";
 import "./nav";
-import { getFitFile } from "./global";
+import { FitFileStore } from "./fit-file-store";
 import { formatDate, formatDuration } from "./utils/date-and-time";
 import type { Session } from "./utils/fit-parser";
 import * as DomUtils from "./utils/dom";
@@ -10,7 +10,7 @@ import { updateMap } from "./map";
 import type { DataPoint } from "./utils/data-point";
 
 export function update(): void {
-  const fitFile = getFitFile();
+  const fitFile = FitFileStore.get();
 
   const start = fitFile?.records.at(0);
   const end = fitFile?.records.at(fitFile.records.length - 1);

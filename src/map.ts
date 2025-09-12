@@ -5,7 +5,7 @@ import L from "leaflet";
 import { getCssVar } from "./utils/dom";
 import { zoomToDistance } from "./chart";
 import type { DataPoint } from "./utils/data-point";
-import { getFitFile } from "./global";
+import { FitFileStore } from "./fit-file-store";
 
 let map: L.Map | null = null;
 let highlightLine: L.Polyline | null = null;
@@ -115,7 +115,7 @@ export async function updateMap(
       L.DomEvent.disableClickPropagation(button);
 
       button.onclick = function () {
-        const max = getFitFile()!.sessions[0].total_distance;
+        const max = FitFileStore.get()!.sessions[0].total_distance;
 
         zoomToDistance(0, max);
         if (highlightLine !== null) {
