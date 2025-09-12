@@ -2,7 +2,6 @@
 :root {
   --background: #181a20;
   --card-background: #23272f;
-  --border: #2d3340;
   --text-color: #f5f6fa;
   --link-color: #2563eb;
   --accent-color: #20c997;
@@ -38,7 +37,6 @@
   :root {
     --background: #f8fafc;
     --card-background: #ffffff;
-    --border: #e2e8f0;
     --text-color: #181a20;
     --link-color: #2563eb;
     --accent-color: #10b981;
@@ -71,7 +69,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   background: var(--card-background);
-  border: 1px solid var(--border);
+
   padding: 10px 20px;
   border-end-end-radius: var(--roundness);
   border-end-start-radius: var(--roundness);
@@ -128,7 +126,7 @@ nav {
   margin: 0;
   border-radius: calc(var(--roundness) * 0.8);
   min-width: 120px;
-  border: 1px solid var(--border);
+
   box-shadow: var(--dropdown-shadow);
   z-index: 10;
 }
@@ -146,7 +144,7 @@ nav {
 main {
   flex: 1;
   display: grid;
-  grid-template-rows: auto 1fr 1fr;
+  grid-template-rows: auto min-content 1fr;
   gap: 1.5rem;
   padding-block: 1.5rem;
 }
@@ -157,7 +155,6 @@ main {
 
 .card {
   background: var(--card-background);
-  border: 1px solid var(--border);
   border-radius: var(--roundness);
   padding: 20px;
   box-shadow: var(--shadow);
@@ -170,7 +167,17 @@ main {
 .header {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+}
+
+#chart,
+#map {
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
 }
 
 .header h2 {
@@ -229,6 +236,33 @@ main {
   animation:
     fadein 0.3s,
     fadeout 0.3s 4.5s;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  background: var(--card-background);
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  border-radius: calc(var(--roundness) * 0.8);
+  padding: 0.3em 0.7em;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+button:hover,
+button:focus {
+  background: var(--accent-color);
+  color: var(--card-background);
+  border-color: var(--accent-color);
+  outline: none;
 }
 
 @keyframes fadein {

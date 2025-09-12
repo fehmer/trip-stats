@@ -8,6 +8,7 @@ import type { DataPoint } from "./utils/data-point";
 import { FitFileStore } from "./fit-file-store";
 
 let map: L.Map | null = null;
+let routeLine: L.Polyline | null = null;
 let highlightLine: L.Polyline | null = null;
 let data: DataPoint[] | null = null;
 
@@ -46,7 +47,7 @@ export async function updateMap(
   }).addTo(map);
 
   // Add route as polyline
-  const routeLine = L.polyline(latlngs, {
+  routeLine = L.polyline(latlngs, {
     color: color,
     weight: 5,
     opacity: 0.8,
@@ -99,36 +100,6 @@ export async function updateMap(
 
   // Fit bounds to route
   map.fitBounds(routeLine.getBounds(), { padding: [20, 20] });
-
-  const CenterControl = L.Control.extend({
-    options: { position: "topleft" },
-
-    onAdd: function () {
-      const button = L.DomUtil.create("button", "leaflet-bar leaflet-control");
-      button.innerHTML = " ✛ ";
-      button.title = "Center map";
-      button.style.padding = "6px";
-      button.style.background = "white";
-      button.style.cursor = "pointer";
-
-      // Prevent map drag on click
-      L.DomEvent.disableClickPropagation(button);
-
-      button.onclick = function () {
-        const max = FitFileStore.get()!.sessions[0].total_distance;
-
-        zoomToDistance(0, max);
-        if (highlightLine !== null) {
-          map?.removeLayer(highlightLine);
-        }
-        map?.fitBounds(routeLine.getBounds(), { padding: [20, 20] });
-      };
-
-      return button;
-    },
-  });
-
-  map.addControl(new CenterControl());
 
   element.classList.remove("hidden");
 }
@@ -217,3 +188,14 @@ function toLatLng(points: DataPoint[]): L.LatLngExpression[] {
       p.position_long as number,
     ]) as L.LatLngExpression[];
 }
+
+document.getElementById("resetMap")?.addEventListener("click", () => {
+  if (routeLine === null) return;
+  const max = FitFileStore.get()!.sessions[0].total_distance;
+
+  zoomToDistance(0, max);
+  if (highlightLine !== null) {
+    map?.removeLayer(highlightLine);
+  }
+  map?.fitBounds(routeLine.getBounds(), { padding: [20, 20] });
+});
