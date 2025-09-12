@@ -64,83 +64,6 @@ body {
   flex-direction: column;
 }
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--card-background);
-
-  padding: 10px 20px;
-  border-end-end-radius: var(--roundness);
-  border-end-start-radius: var(--roundness);
-  box-shadow: var(--shadow);
-}
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.3em;
-  font-weight: 600;
-  user-select: none;
-}
-.logo svg {
-  width: 28px;
-  height: 28px;
-  fill: var(--accent-color);
-  flex-shrink: 0;
-}
-.nav-items {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
-  gap: 24px;
-}
-.nav-items > li {
-  position: relative;
-}
-.nav-items a {
-  color: var(--link-color);
-  text-decoration: none;
-  padding: 8px 12px;
-  display: block;
-  font-weight: 500;
-  border-radius: calc(var(--roundness) * 0.8);
-  transition: background-color 0.2s;
-  cursor: pointer;
-}
-.nav-items a:hover {
-  background: var(--border);
-}
-.nav-items li:hover > ul {
-  display: block;
-}
-.nav-items ul {
-  display: none;
-  position: absolute;
-  top: 35px;
-  right: 0;
-  background: var(--card-background);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border-radius: calc(var(--roundness) * 0.8);
-  min-width: 120px;
-
-  box-shadow: var(--dropdown-shadow);
-  z-index: 10;
-}
-.nav-items ul li a {
-  padding: 10px 16px;
-  font-weight: 400;
-  color: var(--text-color);
-  transition: background-color 0.2s;
-}
-.nav-items ul li a:hover {
-  background: var(--accent-color);
-  color: var(--background);
-}
-
 main {
   flex: 1;
   display: grid;
@@ -167,17 +90,7 @@ main {
 .header {
   display: flex;
   flex-direction: column;
-}
-
-#chart,
-#map {
-  .header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
+  gap: 4px;
 }
 
 .header h2 {
@@ -210,11 +123,23 @@ main {
   margin-inline-start: 4px;
 }
 
+#chart,
+#map {
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+}
+
 #rideChart,
 #leaflet {
   inline-size: 100%;
   block-size: 100%;
 }
+
 /* Toast container */
 #toast-container {
   position: fixed;

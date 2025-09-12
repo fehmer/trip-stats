@@ -1,4 +1,4 @@
-import "./style.css";
+import "./css/style.css";
 import "./nav";
 import { FitFileStore } from "./fit-file-store";
 import { formatDate, formatDuration } from "./utils/date-and-time";

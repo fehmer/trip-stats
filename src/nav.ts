@@ -1,3 +1,4 @@
+import "./css/nav.css";
 import { FitFileStore } from "./fit-file-store";
 import { toCsv } from "./utils/csv";
 import { mergeByTime } from "./utils/data-point";

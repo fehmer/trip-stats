@@ -1,0 +1,41 @@
+/* Custom Leaflet control button styles to match site theme */
+
+.leaflet-control-zoom button,
+.leaflet-control-zoom a {
+  margin: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-background);
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  border-radius: var(--roundness);
+  border-top-left-radius: var(--roundness) !important;
+  border-top-right-radius: var(--roundness) !important;
+  border-bottom-left-radius: var(--roundness) !important;
+  border-bottom-right-radius: var(--roundness) !important;
+  box-shadow: var(--shadow);
+  padding: 0.3em 0.7em;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.leaflet-control-zoom button:hover,
+.leaflet-control-zoom button:focus,
+.leaflet-control-zoom a:hover,
+.leaflet-control-zoom a:focus {
+  background: var(--accent-color);
+  color: var(--card-background);
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+.leaflet-control-zoom {
+  background: transparent;
+  border: none !important;
+}
